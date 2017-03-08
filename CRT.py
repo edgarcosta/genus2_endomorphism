@@ -1,4 +1,4 @@
-#  Copyright (C) 2016, Edgar Costa, Jeroen Sijsling
+#  Copyright (C) 2016-2017 Edgar Costa, Jeroen Sijsling
 #  See LICENSE file for license details.
 
 from sage.all import CRT_list, FiniteField, Integers, Matrix, NumberField, PolynomialRing, QQ
