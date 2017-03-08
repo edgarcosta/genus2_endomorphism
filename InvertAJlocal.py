@@ -8,7 +8,7 @@ import sage.libs.mpmath.all as mpmath
 from sage.all import CC, EllipticCurve, I, PolynomialRing, QQ, QQbar
 from sage.all import cputime, floor, sqrt, walltime
 
-class invertAJlocal:
+class InvertAJlocal:
     def __init__(self, f, prec, verbose = False, method = 'gauss-legendre'):
         self.prec = prec;
         self.verbose = verbose;
@@ -215,7 +215,7 @@ def test_elliptic_curve(a,b,alpha = 7, angles = 12):
     R = PolynomialRing(QQ, "w")
     w = R.gen();
     f = w^3 + a*w + b        
-    iaj = invertAJlocal(f,256, method = 'gauss-legendre')
+    iaj = InvertAJlocal(f,256, method = 'gauss-legendre')
     iaj.set_basepoints( [(mpmath.mpf(infx),mpmath.mpf(infy)) ] )
     for eps in [cos(theta*2*pi/angles) + I*sin(theta*2*pi/angles)for theta in range(0,angles)]:
         px = infx + eps
