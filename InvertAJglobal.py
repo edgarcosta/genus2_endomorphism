@@ -1,11 +1,11 @@
 #  Copyright (C) 2015-2017 Edgar Costa
-#  See the file COPYING for license details.
+#  See the file LICENSE for license details.
 
-#load("Divisor.sage");
 from InvertAJlocal import invertAJlocal
 from PicardGroup import PicardGroup
+from Divisor import Divisor
 import sage.libs.mpmath.all as mpmath
-from sage.all import ComplexField, Divisor, I
+from sage.all import ComplexField, I
 from sage.all import log
 
 class invertAJglobal:

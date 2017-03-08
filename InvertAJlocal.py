@@ -1,5 +1,5 @@
 #  Copyright (C) 2015-2017 Edgar Costa
-#  See the file COPYING for license details.
+#  See the file LICENSE for license details.
 #
 # TODO
 # mpmath might be slow, only use it for the integrals...
