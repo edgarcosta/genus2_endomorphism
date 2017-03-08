@@ -1,0 +1,3 @@
+[submodule "third_party/heuristic_endomorphisms"]
+	path = third_party/heuristic_endomorphisms
+	url = https://github.com/JRSijsling/heuristic_endomorphisms
