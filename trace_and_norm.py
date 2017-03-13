@@ -83,7 +83,7 @@ def add_trace_and_norm_ladic(g, D, alpha_geo, verbose = True):
         M_complex_embedding = None
         Lgen_CC = toCCap(L.gen(), prec = prec)
         for i, _ in enumerate(M.complex_embeddings()):
-            if norm(Lgen_CC-  M(L.gen()).complex_embedding(prec = prec, i = i)) < 2**(-0.8 * Lgen_CC.prec()) * Lgen_CC.abs():
+            if norm(Lgen_CC-  M(L.gen()).complex_embedding(prec = prec, i = i)) < CCap(2)**(-0.7 * Lgen_CC.prec()) * Lgen_CC.abs():
                 M_complex_embedding = i;
 
         assert M_complex_embedding is not None, "\nL = %s\n%s = %s\n%s" % (L, L.gen(), Lgen_CC, M.complex_embeddings())

@@ -10,7 +10,9 @@ g = QQx([1, 6, 9, 6, 18, 0, 5])
 E = EndomorphismData(g);
 print "Verified with puiseux: %s" % E.geometric_representations_check()
 
-print "Alternatively verifying it in tangent space"
+print "Alternatively verifying working on tangent space"
 print "it might take a while..."
 sleep(1)
-print certify_heuristic(g, digits = 600, internalverbose = True)
+curve_dict, out, verified =  certify_heuristic(g)
+
+print "Verified while working on the tangent space: %s" % verified

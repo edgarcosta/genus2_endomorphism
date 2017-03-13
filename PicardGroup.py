@@ -131,8 +131,6 @@ class PicardGroup:
                 W0[i,j] = V[i,j]
         # KV = Ker(V***) = col(V)**perp 
         KV, upper, lower = EqnMatrix(V, 3 * self.d0 + 1 - self.g);
-        print upper
-        print lower
         assert self.threshold_check(upper, lower), "upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))
         self.lower = max(self.lower, lower)
 

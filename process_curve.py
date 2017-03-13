@@ -142,7 +142,8 @@ def process_curve_lmfdb(curve, digits = 600, power = 15, verbose = True, interna
     # minimal model
     fmin, hmin = eval(curve['eqn'])
 
-    g = 4*Qx(fmin) + Qx(hmin)^2
+    Qx = PolynomialRing(QQ, "x");
+    g = 4*Qx(fmin) + Qx(hmin)**2
     return certify_heuristic(g, label, digits, power, verbose, internalverbose)
 
 def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True, internalverbose = False):
