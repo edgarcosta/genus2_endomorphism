@@ -1,19 +1,19 @@
 #  Copyright (C) 2015-2017 Edgar Costa
 #  See the file LICENSE for license details.
 
-from InvertAJlocal import invertAJlocal
+from InvertAJlocal import InvertAJlocal
 from PicardGroup import PicardGroup
 from Divisor import Divisor
 import sage.libs.mpmath.all as mpmath
 from sage.all import ComplexField, I
 from sage.all import log
 
-class invertAJglobal:
+class InvertAJglobal:
     def __init__(self, f, prec, verbose = False):
         self.verbose = verbose;
         self.C = ComplexField(prec);
         self.Pic = PicardGroup(f, self.C, self.verbose);
-        self.iajlocal = invertAJlocal(f, prec, verbose = verbose);
+        self.iajlocal = InvertAJlocal(f, prec, verbose = verbose);
         self.genus = self.iajlocal;
         
     def toC(self, x):

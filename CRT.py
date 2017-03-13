@@ -90,13 +90,13 @@ def fractional_CRT_split(residues, ps_roots, K, BI_coordinates = None):
 def reduce_constant_split(x, p_root):
     x_list = list(x);
     p , root = p_root;
-    return  FiniteField(p)(sum(xi * root^i for i, xi in enumerate(x_list)))
+    return  FiniteField(p)(sum(xi * root**i for i, xi in enumerate(x_list)))
 
 
 def reduce_constant_split_relative(x, p_root, relative_root):
     x_list = list(x);
     p , _ = p_root;
-    return  FiniteField(p)(sum(reduce_constant_split(xi, p_root) * relative_root^i for i, xi in enumerate(x_list)))
+    return  FiniteField(p)(sum(reduce_constant_split(xi, p_root) * relative_root**i for i, xi in enumerate(x_list)))
 
 def reduce_list_split( x_list, p_root):
     return [ reduce_constant_split(x, p_root) for x in x_list ]
@@ -132,7 +132,7 @@ def test_fractional_CRT(field, bits = 63, primes = 50):
 def test_fractional_CRT_sample():
     QQt = PolynomialRing(QQ, "t");
     t = QQt.gen();
-    for K in [QQ, NumberField(t^2  - 2, "a"),  NumberField(t^2  + 3, "a"),  NumberField(t^3  - 2, "a"),  NumberField(t^6 - t^5 + 2*t^4 + 8*t^3 - t^2 - 5*t + 7, "a"), NumberField(t^7 - 2*t^6 + 3*t^5 - 8*t^4 + 12*t^3 - 13*t^2 + 14*t - 6,"a"),NumberField(t^7 - 4*t^5 - t^4 - 5*t^3 + 4*t^2 - 4*t + 1,"a"), NumberField(t^5 - t^4 - 4*t^3 + 3*t^2 + 3*t - 1,"a")]:
+    for K in [QQ, NumberField(t**2  - 2, "a"),  NumberField(t**2  + 3, "a"),  NumberField(t**3  - 2, "a"),  NumberField(t**6 - t**5 + 2*t**4 + 8*t**3 - t**2 - 5*t + 7, "a"), NumberField(t**7 - 2*t**6 + 3*t**5 - 8*t**4 + 12*t**3 - 13*t**2 + 14*t - 6,"a"),NumberField(t**7 - 4*t**5 - t**4 - 5*t**3 + 4*t**2 - 4*t + 1,"a"), NumberField(t**5 - t**4 - 4*t**3 + 3*t**2 + 3*t - 1,"a")]:
         print "Testing fractional CRT on the %s" % K
         for i in range(100):
             set_random_seed(i)

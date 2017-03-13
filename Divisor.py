@@ -1,7 +1,7 @@
 #  Copyright (C) 2016-2017 Edgar Costa
 #  See LICENSE file for license details.
 
-from sage.all import ComplexField, Infinity, Matrix, PolynomialRing
+from sage.all import ComplexField, Infinity, Matrix, PolynomialRing, ZZ
 from sage.all import copy, floor, log 
 
 class Divisor:
@@ -186,7 +186,7 @@ class Divisor:
 
     
     def mul(self, a):
-        assert a.is_integer();
+        assert a in ZZ;
         if a == 1:
             return copy(self)
         

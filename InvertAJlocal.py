@@ -35,7 +35,7 @@ class InvertAJlocal:
                 px = mpmath.rand() +  mpmath.rand()*I;
                 py = self.sign * mpmath.sqrt(self.f(px));
                 argpy = mpmath.fabs(mpmath.arg(py));
-                if argpy < 3 and mpmath.fabs(py) > 1 and mpmath.almosteq(py^2, self.f(px)):
+                if argpy < 3 and mpmath.fabs(py) > 1 and mpmath.almosteq(py**2, self.f(px)):
         		return (px, py) 
 
 
@@ -49,7 +49,7 @@ class InvertAJlocal:
                 self.sign = -1
 
             for px, py in basepoints:
-                assert mpmath.almosteq(self.f(px), py^2), "(%.3e, %.3e) is not a point on the curve" % (px, py, )
+                assert mpmath.almosteq(self.f(px), py**2), "(%.3e, %.3e) is not a point on the curve" % (px, py, )
                 assert mpmath.almosteq(mpmath.sqrt(self.f(px)), self.sign*py), "(%.3e, %.3e) doesn't has the same sign as (%.3e, %.3e) a point on the curve" % (px, py, px0, py0, )
 
             self.basepoints = basepoints;
@@ -69,16 +69,16 @@ class InvertAJlocal:
         # d/dx \int x ^bx   
         sign = -self.sign;
         py_j = [ sign * mpmath.sqrt( self.f(px) ) for px in px_j ];
-        return mpmath.matrix( [[ px_j[j] ^i / py_j [j] for j in range(self.genus)] for i in range(self.genus)])
+        return mpmath.matrix( [[ px_j[j] **i / py_j [j] for j in range(self.genus)] for i in range(self.genus)])
         
         
-    def solve(self, beta, max_iterations = 1000, tolerance = None, x0 = None):
+    def solve(self, beta, max_iterations = 100, tolerance = None, x0 = None):
         # solve \sum_j (\int_bj ^{P_j} w_i)_i = beta
         # assumes beta is small
 
         if tolerance == None:
-            tolerance = 2^(-mpmath.mp.prec + 3);
-        
+            tolerance = mpmath.mpf(2)**(-mpmath.mp.prec + 3);
+        #print "tolerance = %s" % tolerance 
         beta = mpmath.matrix([b for b in beta])
         while True:
             try:
@@ -98,7 +98,7 @@ class InvertAJlocal:
                     else:
                         value = self.to_J_sum(x);
                 
-                previous_norm = 2^(mpmath.mp.prec - 53);
+                previous_norm = 2**(mpmath.mp.prec - 53);
                 divg_bound = 3;
                 divergingQ = 0;
                 for k in range(max_iterations):
@@ -112,7 +112,7 @@ class InvertAJlocal:
 
                     norm = mpmath.norm(y)/mpmath.norm(x)
                     #print "%.3e" % norm;
-
+                    #print norm
                     if norm < tolerance:
                         return (x,y);
 
@@ -151,7 +151,7 @@ class InvertAJlocal:
             root = mpmath.fp.findroot(lambda s: (self.f(px  + s * (bx - px))).imag, (0, 1), solver = "anderson");
             if (mpmath.fp.mpf(0) < root) and (root < mpmath.fp.mpf(1)):
                 return True;
-#                if self.f(bx  + root * (px - bx)).real < 2^(-mpmath.mp.prec/3):
+#                if self.f(bx  + root * (px - bx)).real < 2**(-mpmath.mp.prec/3):
 #                    return True;
 #                else:
 #                   False 
@@ -214,7 +214,7 @@ def test_elliptic_curve(a,b,alpha = 7, angles = 12):
     print inf
     R = PolynomialRing(QQ, "w")
     w = R.gen();
-    f = w^3 + a*w + b        
+    f = w**3 + a*w + b        
     iaj = InvertAJlocal(f,256, method = 'gauss-legendre')
     iaj.set_basepoints( [(mpmath.mpf(infx),mpmath.mpf(infy)) ] )
     for eps in [cos(theta*2*pi/angles) + I*sin(theta*2*pi/angles)for theta in range(0,angles)]:
@@ -227,7 +227,7 @@ def test_elliptic_curve(a,b,alpha = 7, angles = 12):
             qxeps = CC(qx) + (mpmath.rand() + I*mpmath.rand())/1000
             (t1, errort1) = iaj.solve(alpha*v, 100, iaj.error, [qxeps]);
             qxguess = t1[0,0]
-            print mpmath.fabs(qxguess - qx) < 2^(-mpmath.mp.prec/2)
+            print mpmath.fabs(qxguess - qx) < 2**(-mpmath.mp.prec/2)
         except RuntimeWarning as detail:
             print detail
 
