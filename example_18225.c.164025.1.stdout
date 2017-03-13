@@ -1,0 +1,189 @@
+Verified with puiseux: True
+Alternatively verifying working on tangent space
+it might take a while...
+curve_dict = {};
+curve_dict['label'] = None;
+curve_dict['digits'] = 600;
+curve_dict['prec'] = 1994;
+
+Computing the EndomorphismData...
+Time: CPU 0.00 s, Wall: 0.00 s
+#working with the model y^2 = g(x)
+curve_dict['g'] = [1, 6, 9, 6, 18, 0, 5];
+
+# Field of definition of alpha
+curve_dict['K'] = QQ;
+K = curve_dict['K']
+
+curve_dict['alphas_K'][0] = Matrix(K, [(1, 0), (0, 1)]);
+curve_dict['alphas_geo'][0] = Matrix([(1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1)]);
+
+
+curve_dict['alphas_K'][1] = Matrix(K, [(0, -3), (-1, 1)]);
+curve_dict['alphas_geo'][1] = Matrix([(1, 1, 0, 1), (2, 0, -1, 0), (0, -1, 1, 2), (1, 0, 1, 0)]);
+
+
+Computing alpha(P + P)
+where alpha = Matrix(K, [(0, -3), (-1, 1)])
+
+j = 0
+compute_alpha_point()
+P0 = (0, 1)
+L = Rational Field
+1 = 1.00000000000000
+P0 = (0, 1)
+alpha = [[0, -3], [-1, 1]]
+P0_ap = (0.000000000000000, 1.00000000000000)
+Computing AJ of P0...
+Time: CPU 0.15 s, Wall: 3.79 s
+
+Working over Complex Field with 1994 bits of precision
+
+
+inverting AJ...
+Time: CPU 152.10 s, Wall: 152.66 s
+
+
+
+Computing the Mumford coordinates of alpha(2*P0 - 2*W)
+Time: CPU 7.03 s, Wall: 7.05 s
+# R0 = (1.90778692346975e-284 - 4.20086347569926e-285*I, 1.00000000000000 - 1.26025904270978e-284*I)
+# R1 = (-1.90778692346975e-284 + 4.20086347569926e-285*I, 1.00000000000000 + 1.26025904270978e-284*I)
+# and 
+# x_poly = (-3.46317840594754e-568 + 1.60287048124415e-568*I, 4.19902831109702e-568 - 1.95067588023367e-568*I, 1.00000000000000)
+
+algx_poly = [0, 0, 1];
+
+
+Done compute_alpha_point()
+add_trace_and_norm_ladic()
+P0 = (0, 1)
+P1 = (0, 1)
+P2 = (0, 1)
+Computing the trace and the norm ladically
+
+trace_and_norm_ladic()
+primes = 33, bits = 62
+soft_bound = 235
+Generating split primes...
+Time: CPU 0.05 s, Wall: 0.05 s
+Applying newton lift at each prime
+x1(0) = x2(0), but x1 != x2
+trying with a new point
+
+j = 1
+compute_alpha_point()
+P0 = (-1, sqrt(21))
+L = Number Field in b1 with defining polynomial z^2 - z - 5
+b1 = -1.79128784747792
+P0 = (-1, -2*b1 + 1)
+alpha = [[0, -3], [-1, 1]]
+P0_ap = (-1.00000000000000, 4.58257569495584)
+Computing AJ of P0...
+Time: CPU 0.17 s, Wall: 3.04 s
+
+Working over Complex Field with 1994 bits of precision
+
+
+inverting AJ...
+Time: CPU 149.04 s, Wall: 149.27 s
+
+
+
+Computing the Mumford coordinates of alpha(2*P0 - 2*W)
+Time: CPU 7.01 s, Wall: 7.02 s
+# R0 = (0.500000000000000 - 1.96868356171479e-288*I, 2.86410980934740 - 1.01171264730915e-287*I)
+# R1 = (0.500000000000000 + 1.96868356171479e-288*I, 2.86410980934740 + 1.01171264730915e-287*I)
+# and 
+# x_poly = (0.250000000000000 + 2.87941202376869e-575*I, -1.00000000000000 - 3.04245779577601e-575*I, 1.00000000000000)
+
+algx_poly = [1/4, -1, 1];
+#where b1 ~ -1.79128784747792
+
+
+Done compute_alpha_point()
+add_trace_and_norm_ladic()
+P0 = (-1, -2*b1 + 1)
+P1 = (1/2, -5/4*b1 + 5/8)
+P2 = (1/2, -5/4*b1 + 5/8)
+Computing the trace and the norm ladically
+
+trace_and_norm_ladic()
+primes = 66, bits = 62
+soft_bound = 235
+Generating split primes...
+Time: CPU 0.13 s, Wall: 0.13 s
+Applying newton lift at each prime
+x1(0) = x2(0), but x1 != x2
+trying with a new point
+
+j = 2
+compute_alpha_point()
+P0 = (1, 3*sqrt(5))
+L = Number Field in b1 with defining polynomial z^2 - z - 1
+b1 = -0.618033988749895
+P0 = (1, -6*b1 + 3)
+alpha = [[0, -3], [-1, 1]]
+P0_ap = (1.00000000000000, 6.70820393249937)
+Computing AJ of P0...
+Time: CPU 0.13 s, Wall: 3.85 s
+
+Working over Complex Field with 1994 bits of precision
+
+
+inverting AJ...
+Time: CPU 149.57 s, Wall: 150.14 s
+
+
+
+Computing the Mumford coordinates of alpha(2*P0 - 2*W)
+Time: CPU 6.97 s, Wall: 6.97 s
+# R0 = (-0.322191019540377 + 2.69296902908467e-572*I, -0.00158428792013374 + 3.76640166283580e-570*I)
+# R1 = (2.18309967698878 + 9.20272795639507e-571*I, 32.7037956975950 + 3.33147292610582e-569*I)
+# and 
+# x_poly = (-0.703375110687283 - 2.37713432107011e-571*I, -1.86090865744840 - 9.47202485930354e-571*I, 1.00000000000000)
+
+algx_poly = [-41305/58724, -27320/14681, 1];
+#where b1 ~ -0.618033988749895
+
+
+Done compute_alpha_point()
+add_trace_and_norm_ladic()
+P0 = (1, -6*b1 + 3)
+P1 = (-c + 27320/14681, (25166182663/2155317610*b1 - 25166182663/4310635220)*c - 80653348966906/3164221783241*b1 + 40326674483453/3164221783241)
+P2 = (c, (-25166182663/2155317610*b1 + 25166182663/4310635220)*c - 810526390/215531761*b1 + 405263195/215531761)
+Computing the trace and the norm ladically
+
+trace_and_norm_ladic()
+primes = 66, bits = 62
+soft_bound = 235
+Generating split primes...
+Time: CPU 0.39 s, Wall: 0.39 s
+Applying newton lift at each prime
+Getting rid of bad primes...
+Lifting everything
+trace_and_norm_ladic() Done
+# x1 + x2 = degree 22/ degree 22
+# = (-9/4*xL^22 + 3*xL^21 - 291/20*xL^20 - 9/5*xL^19 + 2526/25*xL^18 + 15249/50*xL^17 + 21048/25*xL^16 + 10164/5*xL^15 + 1873317/500*xL^14 + 662898/125*xL^13 + 743268/125*xL^12 + 673356/125*xL^11 + 9945609/2500*xL^10 + 300027/125*xL^9 + 2949063/2500*xL^8 + 292713/625*xL^7 + 369807/2500*xL^6 + 45291/1250*xL^5 + 16521/2500*xL^4 + 21/25*xL^3 + 33/500*xL^2 + 3/1250*xL) / (xL^22 + 3*xL^21 + 79/4*xL^20 + 84*xL^19 + 943/4*xL^18 + 3438/5*xL^17 + 41424/25*xL^16 + 2907*xL^15 + 1875423/500*xL^14 + 914499/250*xL^13 + 1354323/500*xL^12 + 36468/25*xL^11 + 57966/125*xL^10 - 6948/125*xL^9 - 96699/500*xL^8 - 18819/125*xL^7 - 189141/2500*xL^6 - 17046/625*xL^5 - 17809/2500*xL^4 - 822/625*xL^3 - 203/1250*xL^2 - 3/250*xL - 1/2500) 
+# max(22, 22) <= 112
+
+# x1 * x2 = degree 22/ degree 22
+# = (1/4*xL^22 - 7/2*xL^21 - 26/5*xL^20 - 25*xL^19 - 8457/100*xL^18 - 10047/50*xL^17 - 46701/100*xL^16 - 23724/25*xL^15 - 775473/500*xL^14 - 252267/125*xL^13 - 1062147/500*xL^12 - 230538/125*xL^11 - 3339147/2500*xL^10 - 201567/250*xL^9 - 50157/125*xL^8 - 101106/625*xL^7 - 32289/625*xL^6 - 1587/125*xL^5 - 5761/2500*xL^4 - 181/625*xL^3 - 14/625*xL^2 - 1/1250*xL) / (xL^22 + 3*xL^21 + 79/4*xL^20 + 84*xL^19 + 943/4*xL^18 + 3438/5*xL^17 + 41424/25*xL^16 + 2907*xL^15 + 1875423/500*xL^14 + 914499/250*xL^13 + 1354323/500*xL^12 + 36468/25*xL^11 + 57966/125*xL^10 - 6948/125*xL^9 - 96699/500*xL^8 - 18819/125*xL^7 - 189141/2500*xL^6 - 17046/625*xL^5 - 17809/2500*xL^4 - 822/625*xL^3 - 203/1250*xL^2 - 3/250*xL - 1/2500) 
+# max(22, 22) <= 112
+
+
+
+Veritfying if x1*x2 and x1 + x2 are correct...
+verify_algebraically()
+xpoly = xL^2 - 27320/14681*xL - 41305/58724
+Number Field in c with defining polynomial xL^2 - 27320/14681*xL - 41305/58724 over its base field
+Done, verify_algebraically()  = True
+
+Does it act on the tangent space as expected? True
+
+Done add_trace_and_norm_ladic()
+
+
+
+
+Verified while working on the tangent space: True
