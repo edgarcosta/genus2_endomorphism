@@ -208,7 +208,7 @@ def verify_algebraically_GB(g, P0, alpha, trace_and_norm, verbose = True):
 
 
 # TODO
-# verify_algebraically in H**1 
+# verify_algebraically in H^1 
 
 def verify_algebraically(g, P0, alpha, trace_and_norm, verbose = True):
     return verify_algebraically_PS(g, P0, alpha, trace_and_norm, verbose)
