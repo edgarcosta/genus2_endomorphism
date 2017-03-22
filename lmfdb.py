@@ -20,3 +20,7 @@ def getDBconnection():
 def get_curve(label):
     C = getDBconnection()
     return C.genus2_curves.curves.find({ u'label' : label}).next()
+
+def get_endo(label):
+    C = getDBconnection()
+    return C.genus2_curves.endomorphisms.find({ u'label' : label}).next()
