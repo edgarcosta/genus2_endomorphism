@@ -187,7 +187,7 @@ def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True,
         try:
             gtry = g(xsubs);
             if gtry.degree() == 5:
-                gtry = Qx( gtry(1/x) * x**6 )
+                gtry = Qx( gtry(x**(-1)) * x**6 )
             if gtry.degree() == 5:
                 gtry = Qx( gtry((x - 1)/x) * x**6 )
 
