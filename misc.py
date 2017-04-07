@@ -11,7 +11,7 @@ def toCCap(x, prec = 53, ithcomplex_embedding = 0):
         return ComplexField(prec)(x);
 
 def toCCap_list(x, prec = 53, ithcomplex_embedding = 0):
-    return [toCCap(elt, prec) for elt in x]
+    return [toCCap(elt, prec, ithcomplex_embedding) for elt in x]
 
 def almost_equal(z, z_alg, ithcomplex_embedding = 0, prec = None):
     if prec is None:
