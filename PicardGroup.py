@@ -139,10 +139,12 @@ class PicardGroup:
 
     def threshold_check(self, upper, lower = None):
         # checking that upper != 0, and lower ~ 0 when compared with upper
-#        if self.verbose:
-#            print "upper  = %.10e lower = %.10e" % (upper, lower)
+        if self.verbose:
+            print "upper  = %.10e lower = %.10e" % (upper, lower)
+            if lower is not None:
+                print (upper >= self.notzero) and (upper*self.almostzero >= lower)
         if lower is None:
-            return upper > self.notzero
+            return upper >= self.notzero
         else:
             return (upper >= self.notzero) and (upper*self.almostzero >= lower);
 
@@ -434,6 +436,8 @@ class PicardGroup:
 
         phi, upper, lower = Kernel(K, KWncols - 1);
         # rank >= 1
+        if self.verbose:
+            print "phi upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))    
         assert self.threshold_check(1,lower), "upper = %s lower = %s" % (RealField(35)(1), RealField(35)(lower))
         maxlower = max(maxlower, lower);
 
@@ -537,11 +541,13 @@ class PicardGroup:
         # <1, x, x**2,..., x**g> with <basis>
         B = basis.augment( identity_matrix(self.g + 1).stack(Matrix(basis.nrows() - (self.g + 1), (self.g + 1))))
         KB, upper, lower  = Kernel(B, basis.ncols() + self.g )
-        #print "upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))
+        if self.verbose:
+            print "KB upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))
         maxlower = self.lower
         
         result = [None for _ in range(self.g)]
-
+        
+        # if dim of the intersection of <1, x, x**2,..., x**g> with <basis> is 1
         if self.threshold_check(upper, lower):
             # we have the expected rank, all the roots are simple, unless E = 2*P
             # as in genus = 2 we can't have E = tau(P) + P
@@ -555,7 +561,7 @@ class PicardGroup:
                 disc = (b**2 - 4*a*c).abs()
                 #a2 = (a**2).abs()
                 dpoly = poly.derivative()
-                if self.threshold_check(a**2, disc):
+                if self.threshold_check((a**2).abs(), disc):
                     xcoordinates = dpoly.complex_roots() + dpoly.complex_roots()
                     maxlower = max(maxlower, disc);
                 else:
@@ -613,6 +619,9 @@ class PicardGroup:
 #                                
             return result, maxlower;
         else:
+            if self.verbose:
+                print "there is at least a root at infinity, i.e. \inf_{+,-} \in supp E"
+                print (RealField(35)(upper), RealField(35)(lower))
             # there is at least a root at infinity, i.e. \inf_{+,-} \in supp E
             # recall that \inf_{+} + \inf_{-} ~ P + tau(P), and in this case we have booth roots at infinity 
             assert self.g == 2, "for now only genus 2"
