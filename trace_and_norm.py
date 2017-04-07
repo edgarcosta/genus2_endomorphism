@@ -198,7 +198,7 @@ def add_trace_and_norm_ladic(g, D, alpha_geo, verbose = True):
         print "\nDoes it act on the tangent space as expected? %s\n" % verified
         print "Done add_trace_and_norm_ladic()"
  
-    return verified, [trace_numerator, trace_denominator, norm_numerator, norm_denominator]
+    return verified, [trace_numerator.list(), trace_denominator.list(), norm_numerator.list(), norm_denominator.list()]
 
 
 
