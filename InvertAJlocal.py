@@ -5,7 +5,7 @@
 # mpmath might be slow, only use it for the integrals...
 # dynamically adjust precision of mpmath and sage
 import sage.libs.mpmath.all as mpmath
-from sage.all import CC, EllipticCurve, I, PolynomialRing, QQ, QQbar
+from sage.all import CC, ComplexField, EllipticCurve, I, PolynomialRing, QQ, QQbar
 from sage.all import cputime, floor, sqrt, walltime
 
 class InvertAJlocal:
@@ -15,8 +15,13 @@ class InvertAJlocal:
         mpmath.mp.prec = prec;
         vars = f.variables()
         assert len(vars) == 1, "f must be a one variable polynomial"
-        self.f = f;
-        self.genus = floor((self.f.degree() - 1)/2);
+        # for mpmath [cn, ... ,c0] represents cn x^n + ... + c0  
+        self.fpoly = f.list();
+        self.fpoly.reverse();
+        self.f = lambda s: mpmath.polyval(self.fpoly, s);
+        self.f_fp = lambda s: mpmath.fp.polyval(self.fpoly, s);
+
+        self.genus = floor((f.degree() - 1)/2);
         
         self.basepoints = None;
         self.sign = None; 
@@ -98,7 +103,7 @@ class InvertAJlocal:
                     else:
                         value = self.to_J_sum(x);
                 
-                previous_norm = 2**(mpmath.mp.prec - 53);
+                previous_norm = 1;
                 divg_bound = 3;
                 divergingQ = 0;
                 for k in range(max_iterations):
@@ -111,8 +116,8 @@ class InvertAJlocal:
                     
 
                     norm = mpmath.norm(y)/mpmath.norm(x)
-                    #print "%.3e" % norm;
-                    #print norm
+                    if self.verbose:
+                        print "k = %d norm = %.3e" % (k, norm);
                     if norm < tolerance:
                         return (x,y);
 
@@ -125,7 +130,6 @@ class InvertAJlocal:
 
                     if divergingQ > divg_bound:
                         raise RuntimeWarning("method failed: the error diverged");
-
                     if self.verbose:
                         c, w = cputime(), walltime()
                         value = self.to_J_sum(x);
@@ -147,8 +151,21 @@ class InvertAJlocal:
 
 
     def crossing_branchQ(self, px, bx):
+        if self.verbose:
+            print "crossing_branchQ"
         try:
-            root = mpmath.fp.findroot(lambda s: (self.f(px  + s * (bx - px))).imag, (0, 1), solver = "anderson");
+            bp = bx - px;
+            # first try to find a sign change
+            for N in range(1, 10):
+                last_eval = self.f_fp(px).imag;
+                for i in range(1, 2**N + 1):
+                    current_eval =  self.f_fp(px  + i * bp /(2**N)).imag;
+                    if current_eval * last_eval < 0:
+                        return True
+                    else:
+                        last_eval = current_eval
+
+            root = mpmath.fp.findroot(lambda s: (self.f(px  + s * bp)).imag, (0, 1), solver = "secant");
             if (mpmath.fp.mpf(0) < root) and (root < mpmath.fp.mpf(1)):
                 return True;
 #                if self.f(bx  + root * (px - bx)).real < 2**(-mpmath.mp.prec/3):
@@ -161,12 +178,14 @@ class InvertAJlocal:
             return False;
 
     def to_J_sum(self, x):
+        if self.verbose:
+            print "to_J_sum"
         assert len(x) == self.genus;
         basepoints = self.get_basepoints();
         value = [0] * self.genus;
         sign = self.sign;
 
-        for j in range(self.genus):
+        for j in range(self.genus): 
             px = x[j];
             bx = basepoints[j][0];
             if self.crossing_branchQ(px, bx):
@@ -178,6 +197,7 @@ class InvertAJlocal:
                 diff = lambda s: sign * (bx - px) * ( s ** i ) / mpmath.sqrt( self.f( s ) )
                 pathdiff = lambda s: diff( path(s) );
                 value[i] += mpmath.quad(pathdiff, [0,1], method = self.method)
+            
         return mpmath.matrix(value);
     
 
