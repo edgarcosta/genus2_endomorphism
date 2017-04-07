@@ -155,8 +155,9 @@ def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True,
     prec = ceil(log(10)/log(2)*digits)
     curve_dict['prec'] = prec;
     buffer = "curve_dict = {};\n";
-    for key in ['label', 'digits', 'prec']:
+    for key in ['digits', 'prec']:
         buffer += "curve_dict['%s'] = %s;\n" % (key, curve_dict[key]);
+    buffer += "curve_dict['%s'] = '%s';\n" % ('label',label)
     if verbose:
         print buffer
     out += buffer;
@@ -268,11 +269,13 @@ def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True,
     curve_dict['alphas_geo'] = alphas_geo
 
     out += "# where we stored all the data, for each alpha\n";
-    out += "curve_dict['data'] = [None] * %d;" % d
-    curve_dict['data']  = [None] * len(alphas);
+    out += "curve_dict['data'] = [{} for _ in range(%d) ] ;" % d
+    curve_dict['data']  = [{} for _ in range(d) ];
 
     for i in range(d):
-        if alphas[i] != Matrix([[1,0],[0,1]]):
+        if alphas[i] == Matrix([[1,0],[0,1]]):
+            curve_dict['data'][i] = None;
+        else:
             if verbose:
                 print "Computing alpha(P + P)"
                 print "where alpha = Matrix(K, %s)\n" %  (alphas[i].rows(),)
@@ -309,7 +312,7 @@ def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True,
             output_alpha['trace_and_norm'] = trace_and_norm;
             output_alpha['verified'] = verified
             output_alpha['alphas_geo'] = alphas_geo[i];
-            internal_out = "local_dict = {}\n\n";
+            internal_out = "\n"; #local_dict = {}\n\n";
             #
             
             
@@ -326,14 +329,14 @@ def certify_heuristic(g, label = None, digits = 600, power = 15, verbose = True,
 
 
 
-            internal_out += "curve_dict['data'][%d]['P'] = vector(local_dict['L'], %s)\n\n" % (i, output_alpha['P']);
+            internal_out += "curve_dict['data'][%d]['P'] = vector(curve_dict['data'][%d]['L'], %s)\n\n" % (i, i, output_alpha['P']);
 
             
             
             internal_out += "# alpha(P + P) - \inf = R0 + R1 - \inf\n";
             
             internal_out +="\n\n\n";
-            for key in ['algx_poly','R','x_poly','trace_and_norm', 'verified']:
+            for key in ['algx_poly','R','x_poly', 'trace_and_norm', 'verified']:
                 internal_out += "curve_dict['data'][%d]['%s'] = %s;\n" % (i, key, output_alpha[key]);
             
             # this just clutters the file, 
