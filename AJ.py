@@ -313,9 +313,12 @@ def AJ2(f,P,Q):
     return (J[1],J[2])
 
 
-def AJ1(f,P, i = 1):
+def AJ1(R, f,P, i = 1):
+    #if f.degree() == 5:
+    #    return AJ1odd(R, f, P, i)
+    assert f.degree() == 6
     J = gp("AJ1({},[{},{}],my_mesh,{})".format( str(f),str(P[0]),str(P[1]), str(i) ))
-    return (J[1],J[2])
+    return vector(R, (J[1],J[2]))
 
 
 def Z(f):
@@ -323,13 +326,17 @@ def Z(f):
 
 
 # Dealing with hyperelliptic polynomials of odd degree by inversion:
-def AJ1odd(R, f, P):
-    x = f.variables()[0]
+def AJ1odd(R, f, P, i = 1):
     x0, y0 = P
-    g = f(1/x)*x**6
+    if x0 == 0:
+        x = (f.parent()).gen()
+        f = f(x - 1);
+        x0 += 1;
+    g = f.parent()(list(reversed(f.padded_list(7))))
+    print gp.polroots(g)[1]
     v = R(1/x0)
-    w = R(y0/x0**3)
-    total = ( vector(R, AJ1(g,(0,0))) - vector(R, AJ1(g,(v,w))) ).list();
+    w = R(y0/(x0**3))
+    total = ( vector(R, AJ1(R, g,(0,0), i)) - vector(R, AJ1(R, g,(v,w), i)) ).list();
     total.reverse();
     return vector(R, total);
 
@@ -349,7 +356,7 @@ def AJ1_digits(f, P, desired_digits, mesh = 4):
         CF = ComplexField(log(10)/log(2)*working_digits)
         for i in range(mesh, max(0, mesh -3) ,-1):
             PariIntNumInit(i);
-            aj[i] = AJ1(f, P, k);
+            aj[i] = AJ1(CF, f, P, k);
             if i < mesh:
                 correct_digits[i] = RR((-log(max([ abs(CF((aj[mesh][j] - x)/aj[mesh][j])) for j,x in enumerate(aj[i]) ]))/ log(10.))/working_digits);
             if i + 1 < mesh:
@@ -367,7 +374,7 @@ def AJ1_digits(f, P, desired_digits, mesh = 4):
             SetPariPrec( ceil(desired_digits) + 10*guess );
             PariIntNumInit(guess);
             CF = ComplexField(log(10)/log(2)*desired_digits);
-            result = vector(CF, AJ1(f, P, k));
+            result = vector(CF, AJ1(CF, f, P, k));
             # avoiding memory leaks
             gp._reset_expect();
             load_gp();
