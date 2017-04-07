@@ -1,9 +1,9 @@
 #  Copyright (C) 2015-2017 Edgar Costa
 #  See the file LICENSE for license details.
 
-from InvertAJlocal import InvertAJlocal
-from PicardGroup import PicardGroup
-from Divisor import Divisor
+import InvertAJlocal
+import PicardGroup
+import Divisor
 import sage.libs.mpmath.all as mpmath
 from sage.all import ComplexField, I
 from sage.all import log
@@ -11,13 +11,15 @@ from sage.all import log
 class InvertAJglobal:
     def __init__(self, f, prec, verbose = False):
         self.verbose = verbose;
+        self.prec = prec;
+        self.f = f;
         self.C = ComplexField(prec);
-        self.Pic = PicardGroup(f, self.C, self.verbose);
-        self.iajlocal = InvertAJlocal(f, prec, verbose = verbose);
+        self.Pic = PicardGroup.PicardGroup(f, self.C, self.verbose);
+        self.iajlocal = InvertAJlocal.InvertAJlocal(f, prec, verbose = verbose);
         self.genus = self.iajlocal;
         
     def toC(self, x):
-        return self.C(x.real, x.imag)
+        return self.C(mpmath.mpmath_to_sage(x, self.prec));
 
     def toPoint(self, px):
         return ( self.toC(px) , self.toC( self.iajlocal.sign * mpmath.mp.sqrt( self.iajlocal.f(px) )) )
@@ -48,8 +50,8 @@ class InvertAJglobal:
         # inverse_scaled_divisor = Q - B
         if self.verbose:
             print "Initializing divisors"
-        inverse_scaled_divisor = Divisor(self.Pic, [inverse_scaled_points[0], inverse_scaled_points[1] ]);
-        basepoints_divisor = Divisor(self.Pic, [ iajbp[0], iajbp[1] ]);
+        inverse_scaled_divisor = Divisor.Divisor(self.Pic, [inverse_scaled_points[0], inverse_scaled_points[1] ]);
+        basepoints_divisor = Divisor.Divisor(self.Pic, [ iajbp[0], iajbp[1] ]);
 
         if self.verbose:
             print "Computing their difference" 
