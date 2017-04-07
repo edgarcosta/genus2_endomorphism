@@ -1,0 +1,43 @@
+In[1]:= g[x_]:=x^5-x^4+4*x^3-8*x^2+5*x-1
+sol =Reverse[ Solve[x^2+6*x-3==0,x]]
+Out[2]= {{x->-3+2 Sqrt[3]},{x->-3-2 Sqrt[3]}}
+In[3]:= xcoord = x/.sol;
+ycoord= Sqrt[Expand[g[x]/.sol]];
+ycoord[[2]]=-ycoord[[2]];
+P1 = {xcoord[[1]],ycoord[[1]]}
+P1//N
+P2 = {xcoord[[2]],ycoord[[2]]}
+P2//N
+Out[6]= {-3+2 Sqrt[3],I Sqrt[7240-4180 Sqrt[3]]}
+Out[7]= {0.464102,0. +0.166206 I}
+Out[8]= {-3-2 Sqrt[3],-I Sqrt[7240+4180 Sqrt[3]]}
+Out[9]= {-6.4641,0. -120.333 I}
+In[10]:= trace = (4*x-2)/x^2
+norm = (2*x-1)/x^2
+Out[10]= (-2+4 x)/x^2
+Out[11]= (-1+2 x)/x^2
+In[12]:= FullSimplify[trace/.x->t - 1]
+FullSimplify[norm/.x->t - 1]
+Out[12]= (-6+4 t)/(-1+t)^2
+Out[13]= (-3+2 t)/(-1+t)^2
+In[14]:= Solatm1 = Reverse[FullSimplify[Solve[ ((X^2 -trace X +norm)/.x->t - 1)==0,X]]];
+Solatm1/.t->0
+Out[15]= {{X->-3+2 Sqrt[3]},{X->-3-2 Sqrt[3]}}
+In[16]:= x1series = Series[X/.Solatm1[[1]],{t,0,5}];
+x2series = Series[X/.Solatm1[[2]],{t,0,5}];
+CoefficientList[x1series,t]
+CoefficientList[x2series,t]
+Out[18]= {-3+2 Sqrt[3],-4+7/Sqrt[3],-5+26/(3 Sqrt[3]),-6+187/(18 Sqrt[3]),-7+1309/(108 Sqrt[3]),-8+8977/(648 Sqrt[3])}
+Out[19]= {-3-2 Sqrt[3],-4-7/Sqrt[3],-5-26/(3 Sqrt[3]),-6-187/(18 Sqrt[3]),-7-1309/(108 Sqrt[3]),-8-8977/(648 Sqrt[3])}
+In[20]:= CoefficientList[(x1series + x2series)/2,t]
+CoefficientList[x1series - (x1series + x2series)/2,t]
+Out[20]= {-3,-4,-5,-6,-7,-8}
+Out[21]= {2 Sqrt[3],7/Sqrt[3],26/(3 Sqrt[3]),187/(18 Sqrt[3]),1309/(108 Sqrt[3]),8977/(648 Sqrt[3])}
+In[22]:= x1series + x2series == Series[trace/.x->t - 1,{t,0,5}]
+Out[22]= True
+In[23]:= x1series * x2series == Series[norm/.x->t - 1,{t,0,5}]//FullSimplify
+Out[23]= True
+In[24]:= (X/.Solatm1[[1]])*(t-1)^2//Expand//FullSimplify
+( X/.Solatm1[[2]])
+Out[24]= -3+Sqrt[-(((-2+t)^2 (-3+2 t))/(-1+t)^4)]+t (2-2 Sqrt[-(((-2+t)^2 (-3+2 t))/(-1+t)^4)]+t Sqrt[-(((-2+t)^2 (-3+2 t))/(-1+t)^4)])
+Out[25]= -(1/(-1+t)^2)+2/(-1+t)-Sqrt[-(((-2+t)^2 (-3+2 t))/(-1+t)^4)]
