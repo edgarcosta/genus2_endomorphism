@@ -1,3 +1,5 @@
+import sys
+sys.path.append(".");
 import heuristic_endomorphisms
 import misc
 import AJ
