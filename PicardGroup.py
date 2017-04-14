@@ -640,12 +640,54 @@ class PicardGroup:
             norm_one = norm(Ebasis * v0)
       
             if not self.threshold_check(upper, lower):
+                # dim <1, x> cap <basis> = 2
+
                 #1 \in <basis>
                 assert self.threshold_check(1, norm_one),  "upper = %s lower = %s norm_one = %s " % (RealField(35)(upper), RealField(35)(lower), RealField(35)(norm_one));
                 maxlower = max(maxlower, norm_one);
-                # E = \inf_{+} + \inf_{-} 
-                # 1 \in H**0((g+1)\infty - E)
-                return [+Infinity, -Infinity], maxlower
+                
+                #x \in <basis>
+
+                vx = vector(self.R, [0]*basis.nrows())
+                vx[1] = 1
+                lower = norm(Ebasis * vx)
+                assert self.threshold_check(1, lower), "lower = %s" % (RealField(35)(lower),);
+                maxlower = max(maxlower, lower);
+                
+                vx2 = vector(self.R, [0]*basis.nrows())
+                vx2[2] = 1
+                lower = norm(Ebasis * vx2)
+                if self.threshold_check(1, lower):
+                    # E = \inf_{+} + \inf_{-} 
+                    # <1, x, x^2>  \in H**0((g+1)\infty - E)
+                    # x \in H^0 => 0 + 2 \infty - E >= 0
+                    # x^2 \in H^0 => 4 * P_0 + \infty - E >= 0 for all P0
+
+                    maxlower = max(maxlower, lower);
+                    return [+Infinity, -Infinity], maxlower
+
+                # <1, x>  \in H**0((g+1)\infty - E)
+                # but not x^2
+                # supp(E) \subsetneq { \inf_{+}, \inf_{-}  }
+                if self.f.degree() % 2 == 0:
+                    # we need to figure out the sign at infinity
+                    Maug = Matrix(basis.nrows() - self.g - 1, self.g + 1).stack(identity_matrix(self.g + 1))
+                    B = basis.augment( Maug )
+                    KB, upper, lower  = Kernel(B, basis.ncols() + self.g )
+
+                    a, b, c = KB.column(0)[-(2 + 1):].list()
+                    assert self.threshold_check(upper, lower), "upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))
+
+                    tmp = (-b/c) / sqrt(self.f.list()[-1]);
+                    assert self.threshold_check( tmp.real(), tmp.imag()), "upper = %s lower = %s" % (RealField(35)(upper), RealField(35)(lower))
+                    infsign = round(tmp.real());
+                    assert infsign in [1, -1]
+
+
+                    return [infsign*Infinity, infsign*Infinity], maxlower
+
+
+                return [+Infinity, +Infinity], maxlower
             else:
                 maxlower = max(maxlower, lower);
                 #1 \notin <basis>

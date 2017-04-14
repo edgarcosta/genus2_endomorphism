@@ -1,6 +1,6 @@
 import sys
 from sage.all import *
-sys.path.append("/Users/edgarcosta/projects/endomorphisms/genus2_endomorphisms/");
+sys.path.append(".");
 from process_curve import certify_heuristic
 from heuristic_endomorphisms import *
 QQx= PolynomialRing(QQ, "x")
