@@ -86,7 +86,7 @@ for i, row in enumerate(alphaP_div.coordinates()):
     print "%s_%d &\\approx %s\\\\" % (name, i+1, latex(vector(CClow, vector(CDF, row))))
 print "."
 
-algx_poly = [QQ(-3)/4, QQ(3)/2, 1];
+algx_poly = [QQ(3)/4, QQ(-3)/2, 1];
 print "%% x coordinates satisfy: "
 print latex(QQx(algx_poly))
 print "%% = %s" % (vector(CClow, vector(CDF, alphaP_div.x_coordinates())),)
